@@ -1,0 +1,14 @@
+/train
+/valid
+/test
+/*.v3-backup
+/*.v4-backup
+
+# Analysis - keep only combined image
+/analysis/*_distribution.png
+/analysis/brightness_cache.json
+
+# Utility scripts (one-time use)
+/analyze_distributions.py
+/resplit_dataset.py
+/dataset_report_format.md

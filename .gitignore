@@ -1,0 +1,18 @@
+# Golden VRU Dataset Repository
+# Only track golden/ folder and DVC config
+
+# Ignore everything by default
+/*
+
+# Allow golden-vru dataset folder
+!golden-vru/
+
+# Allow DVC configuration
+!.dvc/
+!.dvcignore
+
+# Allow this gitignore
+!.gitignore
+
+# Inside golden/, DVC tracks the directories
+# So we don't need explicit ignores there
