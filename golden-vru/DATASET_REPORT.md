@@ -1,25 +1,28 @@
 # Golden-VRU Dataset Analysis Report
 
-Generated: 2026-01-16
+Generated: 2026-01-27
 
 ## Executive Summary
 
 The Golden-VRU dataset is a curated multi-source dataset for Vulnerable Road User (VRU) detection, combining images from BDD100K, Cityscapes, and RSUD20K. This dataset contains only images with pedestrian and/or cyclist annotations, making it ideal for training object detection models targeting VRUs.
 
+**v7.0 Update:** Small objects (area < 32x32 = 1024 px²) have been removed to focus on medium and large VRUs that are more relevant for autonomous vehicle safety applications.
+
 ### Dataset Overview
 
 | Split | Images | Annotations | Pedestrians | Cyclists |
 |-------|--------|-------------|-------------|----------|
-| Train | 37,507 | 165,311 | 129,294 (78.2%) | 36,017 (21.8%) |
-| Valid | 4,688 | 21,016 | 16,419 (78.1%) | 4,597 (21.9%) |
-| Test | 4,689 | 21,486 | 16,925 (78.8%) | 4,561 (21.2%) |
-| **Total** | **46,884** | **207,813** | **162,638 (78.3%)** | **45,175 (21.7%)** |
+| Train | 32,106 | 113,658 | 83,284 (73.3%) | 30,374 (26.7%) |
+| Valid | 4,041 | 14,590 | 10,644 (73.0%) | 3,946 (27.0%) |
+| Test | 4,033 | 14,964 | 11,105 (74.2%) | 3,859 (25.8%) |
+| **Total** | **40,180** | **143,212** | **104,933 (73.3%)** | **38,279 (26.7%)** |
 
 **Key Characteristics:**
 - Multi-resolution: 1280x720 (BDD100K), 2048x1024 (Cityscapes), 1920x1080 (RSUD20K)
 - Sources: BDD100K (USA), Cityscapes (Europe), RSUD20K (South Asia)
-- Average annotations per image: 4.4
-- Balanced class distribution across splits (~78% pedestrian, ~22% cyclist)
+- Average annotations per image: 3.6
+- Balanced class distribution across splits (~73% pedestrian, ~27% cyclist)
+- **No small objects** - only medium (32²-96² px) and large (>96² px) annotations
 - 80/10/10 train/valid/test split with stratified sampling
 
 ---
@@ -56,16 +59,18 @@ The Golden-VRU dataset is a curated multi-source dataset for Vulnerable Road Use
 
 COCO size thresholds: small < 32², medium 32²-96², large > 96²
 
+**v7.0: Small objects removed** - Only medium and large annotations remain.
+
 | Split | Small (<1024 px²) | Medium (1024-9216 px²) | Large (>9216 px²) |
 |-------|-------------------|------------------------|-------------------|
-| Train | 51,653 (31.2%) | 75,163 (45.5%) | 38,495 (23.3%) |
-| Valid | 6,426 (30.6%) | 9,769 (46.5%) | 4,821 (22.9%) |
-| Test | 6,522 (30.4%) | 9,824 (45.7%) | 5,140 (23.9%) |
+| Train | 0 (0%) | 75,163 (66.1%) | 38,495 (33.9%) |
+| Valid | 0 (0%) | 9,769 (67.0%) | 4,821 (33.0%) |
+| Test | 0 (0%) | 9,824 (65.7%) | 5,140 (34.3%) |
 
 **Observations:**
-1. **Balanced distribution** - Approximately 30% small, 46% medium, 23% large
-2. **Consistent across splits** - Size distribution is remarkably consistent, indicating good stratification
-3. **More large objects** - Higher resolution sources (Cityscapes, RSUD20K) contribute more large annotations
+1. **No small objects** - All annotations with area < 1024 px² have been removed
+2. **Medium-dominant** - Approximately 66% medium, 34% large
+3. **Consistent across splits** - Size distribution is remarkably consistent across all splits
 
 ---
 
@@ -102,14 +107,15 @@ COCO size thresholds: small < 32², medium 32²-96², large > 96²
 
 | Split | Pedestrian % | Cyclist % | Ratio |
 |-------|--------------|-----------|-------|
-| Train | 78.2% | 21.8% | 3.6:1 |
-| Valid | 78.1% | 21.9% | 3.6:1 |
-| Test | 78.8% | 21.2% | 3.7:1 |
+| Train | 73.3% | 26.7% | 2.7:1 |
+| Valid | 73.0% | 27.0% | 2.7:1 |
+| Test | 74.2% | 25.8% | 2.9:1 |
 
 **Key Findings:**
-1. **Consistent class balance** - All splits within 1% of each other (achieved via stratified sampling)
-2. **Improved cyclist representation** - 21.7% cyclists vs 13.9% in BDD100K-only version
-3. **Training considerations:**
+1. **Consistent class balance** - All splits within 1.5% of each other
+2. **Better cyclist representation** - 26.7% cyclists vs 21.7% in v6.0 (small pedestrians disproportionately removed)
+3. **Improved class balance** - Ratio reduced from 3.6:1 to 2.7:1
+4. **Training considerations:**
    - Class-weighted loss functions may still help
    - Per-class metrics should be reported separately
 
@@ -168,14 +174,17 @@ COCO size thresholds: small < 32², medium 32²-96², large > 96²
 ```
 golden-vru/
 ├── train/
-│   ├── _annotations.coco.json   (37,507 images, 165,311 annotations)
-│   └── [37,507 images]
+│   ├── _annotations.coco.json   (32,106 images, 113,658 annotations)
+│   ├── _annotations.coco.v6.0.json   (backup of v6.0)
+│   └── [32,106 images]
 ├── valid/
-│   ├── _annotations.coco.json   (4,688 images, 21,016 annotations)
-│   └── [4,688 images]
+│   ├── _annotations.coco.json   (4,041 images, 14,590 annotations)
+│   ├── _annotations.coco.v6.0.json   (backup of v6.0)
+│   └── [4,041 images]
 ├── test/
-│   ├── _annotations.coco.json   (4,689 images, 21,486 annotations)
-│   └── [4,689 images]
+│   ├── _annotations.coco.json   (4,033 images, 14,964 annotations)
+│   ├── _annotations.coco.v6.0.json   (backup of v6.0)
+│   └── [4,033 images]
 ├── analysis/
 │   ├── 1_class_distribution.png
 │   ├── 2_size_distribution.png
@@ -188,6 +197,8 @@ golden-vru/
 ├── STATS.md
 ├── DATASET_REPORT.md
 ├── analyze_distributions.py
+├── filter_small_objects.py
+├── validate_dataset.py
 └── resplit_dataset.py
 ```
 
@@ -200,7 +211,15 @@ golden-vru/
 
 ## 9. Version History
 
-### v6.0 - 80/10/10 Split (Current)
+### v7.0 - Medium + Large Objects Only (Current)
+- Git tag: `v7.0-medium-large-only`
+- Removed small objects (area < 32x32 = 1024 px²)
+- Removed images with no remaining annotations
+- Images: 40,180 (32,106 / 4,041 / 4,033)
+- Annotations: 143,212 (-31.1% from v6.0)
+- Cyclist ratio: 26.7% (+5% from v6.0)
+
+### v6.0 - 80/10/10 Split
 - Git tag: `v6.0-80-10-10-split`
 - Re-split with stratified sampling for balanced distributions
 - Images: 46,884 (37,507 / 4,688 / 4,689)

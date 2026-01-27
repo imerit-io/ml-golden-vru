@@ -1,28 +1,29 @@
 # Golden VRU Dataset Statistics
 
-Generated: 2026-01-16
+Generated: 2026-01-27
 
-## Current Version: v6.0 (80/10/10 Split)
+## Current Version: v7.0 (Medium + Large Objects Only)
 
 This dataset is designed for training RF-DETR models on Vulnerable Road User (VRU) detection.
+Small objects (area < 32x32 = 1024 px²) have been removed to focus on medium and large VRUs.
 
 ## Dataset Summary
 
 | Split | Images | Annotations | Pedestrian | Cyclist |
 |-------|--------|-------------|------------|---------|
-| Train | 37,507 | 165,311 | 129,294 (78.2%) | 36,017 (21.8%) |
-| Valid | 4,688 | 21,016 | 16,419 (78.1%) | 4,597 (21.9%) |
-| Test | 4,689 | 21,486 | 16,925 (78.8%) | 4,561 (21.2%) |
-| **Total** | **46,884** | **207,813** | **162,638 (78.3%)** | **45,175 (21.7%)** |
+| Train | 32,106 | 113,658 | 83,284 (73.3%) | 30,374 (26.7%) |
+| Valid | 4,041 | 14,590 | 10,644 (73.0%) | 3,946 (27.0%) |
+| Test | 4,033 | 14,964 | 11,105 (74.2%) | 3,859 (25.8%) |
+| **Total** | **40,180** | **143,212** | **104,933 (73.3%)** | **38,279 (26.7%)** |
 
-## Source Distribution
+## Size Distribution
 
-| Split | BDD100K | Cityscapes | RSUD20K | Total |
-|-------|---------|------------|---------|-------|
-| Train | 22,220 | 2,453 | 12,834 | 37,507 |
-| Valid | 2,777 | 307 | 1,604 | 4,688 |
-| Test | 2,778 | 307 | 1,604 | 4,689 |
-| **Total** | **27,775** | **3,067** | **16,042** | **46,884** |
+| Split | Medium (32²-96² px) | Large (>96² px) |
+|-------|---------------------|-----------------|
+| Train | 75,163 (66.1%) | 38,495 (33.9%) |
+| Valid | 9,769 (67.0%) | 4,821 (33.0%) |
+| Test | 9,824 (65.7%) | 5,140 (34.3%) |
+| **Total** | **94,756 (66.2%)** | **48,456 (33.8%)** |
 
 ## Image Resolution
 
@@ -41,7 +42,27 @@ This dataset is designed for training RF-DETR models on Vulnerable Road User (VR
 
 ## Version History
 
-### v6.0 - 80/10/10 Split (current)
+### v7.0 - Medium + Large Objects Only (current)
+Git tag: `v7.0-medium-large-only`
+
+Removed small objects (area < 32x32 = 1024 px²) from v6.0 to focus on medium and large VRUs.
+Images with no remaining annotations after filtering were also removed.
+
+| Metric | v6.0 | v7.0 | Change |
+|--------|------|------|--------|
+| Images | 46,884 | 40,180 | -14.3% |
+| Annotations | 207,813 | 143,212 | -31.1% |
+| Small objects | 64,601 | 0 | -100% |
+| Cyclist ratio | 21.7% | 26.7% | +5.0% |
+
+| Split | Images | Annotations | Pedestrian | Cyclist |
+|-------|--------|-------------|------------|---------|
+| Train | 32,106 | 113,658 | 83,284 (73.3%) | 30,374 (26.7%) |
+| Valid | 4,041 | 14,590 | 10,644 (73.0%) | 3,946 (27.0%) |
+| Test | 4,033 | 14,964 | 11,105 (74.2%) | 3,859 (25.8%) |
+| **Total** | **40,180** | **143,212** | **104,933 (73.3%)** | **38,279 (26.7%)** |
+
+### v6.0 - 80/10/10 Split
 Git tag: `v6.0-80-10-10-split`
 
 Re-split dataset to standard 80/10/10 ratios using stratified sampling to maintain:
