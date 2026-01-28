@@ -221,7 +221,7 @@ golden-vru/
 ## 9. Version History
 
 ### v8.0 - Added nuImages (Current)
-- Git tag: `v8.0-with-nuimages`
+- Git tag: `v8.0`
 - Added nuImages VRU data for Singapore/Boston coverage
 - Images: 85,857 (68,647 / 8,609 / 8,601)
 - Annotations: 277,788 (+94.0% from v7.0)

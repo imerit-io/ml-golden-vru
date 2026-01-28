@@ -53,7 +53,7 @@ Small objects (area < 32x32 = 1024 px²) have been removed to focus on medium an
 ## Version History
 
 ### v8.0 - Added nuImages (current)
-Git tag: `v8.0-with-nuimages`
+Git tag: `v8.0`
 
 Added nuImages VRU data for Singapore and Boston geographic coverage.
 
