@@ -1,8 +1,8 @@
 # Golden VRU Dataset Statistics
 
-Generated: 2026-01-28
+Generated: 2026-01-29
 
-## Current Version: v8.0 (BDD100K + Cityscapes + RSUD20K + nuImages)
+## Current Version: v9.0 (BDD100K + Cityscapes + nuImages)
 
 This dataset is designed for training RF-DETR models on Vulnerable Road User (VRU) detection.
 Small objects (area < 32x32 = 1024 px²) have been removed to focus on medium and large VRUs.
@@ -11,37 +11,36 @@ Small objects (area < 32x32 = 1024 px²) have been removed to focus on medium an
 
 | Split | Images | Annotations | Pedestrian | Cyclist |
 |-------|--------|-------------|------------|---------|
-| Train | 68,647 | 221,578 | 167,055 (75.4%) | 54,523 (24.6%) |
-| Valid | 8,609 | 28,191 | 21,291 (75.5%) | 6,900 (24.5%) |
-| Test | 8,601 | 28,019 | 21,107 (75.3%) | 6,912 (24.7%) |
-| **Total** | **85,857** | **277,788** | **209,453 (75.4%)** | **68,335 (24.6%)** |
+| Train | 55,878 | 178,492 | 138,806 (77.8%) | 39,686 (22.2%) |
+| Valid | 7,013 | 22,886 | 17,817 (77.9%) | 5,069 (22.1%) |
+| Test | 7,005 | 22,474 | 17,457 (77.7%) | 5,017 (22.3%) |
+| **Total** | **69,896** | **223,852** | **174,080 (77.8%)** | **49,772 (22.2%)** |
 
 ## Size Distribution
 
 | Split | Medium (32²-96² px) | Large (>96² px) |
 |-------|---------------------|-----------------|
-| Train | 159,764 (72.1%) | 61,814 (27.9%) |
-| Valid | 20,541 (72.9%) | 7,650 (27.1%) |
-| Test | 19,995 (71.4%) | 8,024 (28.6%) |
-| **Total** | **200,300 (72.1%)** | **77,488 (27.9%)** |
+| Train | 142,624 (79.9%) | 35,868 (20.1%) |
+| Valid | 18,400 (80.4%) | 4,486 (19.6%) |
+| Test | 17,900 (79.7%) | 4,574 (20.3%) |
+| **Total** | **178,924 (79.9%)** | **44,928 (20.1%)** |
 
 ## Image Resolution
 
 | Source | Resolution | Images | Percentage |
 |--------|------------|--------|------------|
-| nuImages | 1600 x 900 | 45,677 | 53.2% |
-| BDD100K | 1280 x 720 | 21,326 | 24.8% |
-| RSUD20K | 1920 x 1080 | 15,961 | 18.6% |
-| Cityscapes | 2048 x 1024 | 2,893 | 3.4% |
+| nuImages | 1600 x 900 | 45,677 | 65.3% |
+| BDD100K | 1280 x 720 | 21,326 | 30.5% |
+| Cityscapes | 2048 x 1024 | 2,893 | 4.1% |
 
 ## Source Distribution by Split
 
-| Split | BDD100K | Cityscapes | RSUD20K | nuImages | Total |
-|-------|---------|------------|---------|----------|-------|
-| Train | 17,017 (24.8%) | 2,320 (3.4%) | 12,769 (18.6%) | 36,541 (53.2%) | 68,647 |
-| Valid | 2,156 (25.0%) | 289 (3.4%) | 1,596 (18.5%) | 4,568 (53.1%) | 8,609 |
-| Test | 2,153 (25.0%) | 284 (3.3%) | 1,596 (18.6%) | 4,568 (53.1%) | 8,601 |
-| **Total** | **21,326 (24.8%)** | **2,893 (3.4%)** | **15,961 (18.6%)** | **45,677 (53.2%)** | **85,857** |
+| Split | BDD100K | Cityscapes | nuImages | Total |
+|-------|---------|------------|----------|-------|
+| Train | 17,017 (30.5%) | 2,320 (4.2%) | 36,541 (65.4%) | 55,878 |
+| Valid | 2,156 (30.7%) | 289 (4.1%) | 4,568 (65.1%) | 7,013 |
+| Test | 2,153 (30.7%) | 284 (4.1%) | 4,568 (65.2%) | 7,005 |
+| **Total** | **21,326 (30.5%)** | **2,893 (4.1%)** | **45,677 (65.3%)** | **69,896** |
 
 ## Categories
 
@@ -52,7 +51,26 @@ Small objects (area < 32x32 = 1024 px²) have been removed to focus on medium an
 
 ## Version History
 
-### v8.0 - Added nuImages (current)
+### v9.0 - Removed RSUD20K (current)
+Git tag: `v9.0`
+
+Removed RSUD20K data due to annotation quality concerns. RSUD images extracted to `/mnt/data/rsud-vru/`.
+
+| Metric | v8.0 | v9.0 | Change |
+|--------|------|------|--------|
+| Images | 85,857 | 69,896 | -18.6% |
+| Annotations | 277,788 | 223,852 | -19.4% |
+| Sources | 4 | 3 | -1 |
+| Cyclist ratio | 24.6% | 22.2% | -2.4% |
+
+| Split | Images | Annotations | Pedestrian | Cyclist |
+|-------|--------|-------------|------------|---------|
+| Train | 55,878 | 178,492 | 138,806 (77.8%) | 39,686 (22.2%) |
+| Valid | 7,013 | 22,886 | 17,817 (77.9%) | 5,069 (22.1%) |
+| Test | 7,005 | 22,474 | 17,457 (77.7%) | 5,017 (22.3%) |
+| **Total** | **69,896** | **223,852** | **174,080 (77.8%)** | **49,772 (22.2%)** |
+
+### v8.0 - Added nuImages
 Git tag: `v8.0`
 
 Added nuImages VRU data for Singapore and Boston geographic coverage.
@@ -166,25 +184,19 @@ Git tag: `v1.0-bdd100k-only`
 - **Geographic**: European urban scenes (Germany)
 - **Images included**: Only those with VRU annotations
 
-### RSUD20K
-- **License**: Custom (research use)
-- **Image Resolution**: 1920 x 1080
-- **Geographic**: South Asian urban scenes (Bangladesh)
-- **Images included**: Only those with VRU annotations
-
 ## File Structure
 
 ```
 golden-vru/
 ├── train/
 │   ├── _annotations.coco.json
-│   └── [68,647 images]
+│   └── [55,878 images]
 ├── valid/
 │   ├── _annotations.coco.json
-│   └── [8,609 images]
+│   └── [7,013 images]
 ├── test/
 │   ├── _annotations.coco.json
-│   └── [8,601 images]
+│   └── [7,005 images]
 ├── analysis/
 │   └── [distribution charts]
 ├── STATS.md
@@ -195,7 +207,6 @@ golden-vru/
 
 - **BDD100K**: `{video_id}-{frame_id}.jpg`
 - **Cityscapes**: `cityscapes_{city}_{sequence}_{frame}.png`
-- **RSUD20K**: `rsud_{split}{index}.jpg`
 - **nuImages**: `nuimages_{camera}_{timestamp}.jpg`
 
 ## Annotation Format
@@ -205,7 +216,7 @@ COCO Detection format with:
 - `category_id`: 0 (pedestrian) or 1 (cyclist)
 - `area`: width * height
 - `iscrowd`: 0
-- `source`: "bdd100k", "cityscapes", "rsud20k", or "nuimages"
+- `source`: "bdd100k", "cityscapes", or "nuimages"
 
 ## Usage
 
@@ -246,7 +257,7 @@ dvc checkout
 ### Storage
 
 - **S3 Remote**: `s3://imerit-ml-data-playground/data/golden-vru/`
-- **Total size**: ~45 GB
+- **Total size**: ~38 GB
 
 ## Baseline (v7.0 Test)
 
@@ -256,8 +267,8 @@ YOLOv8x (COCO person class): mAP@50=0.478, F1=0.578
 
 1. Mixed resolutions require handling during training (resize/padding)
 2. Cityscapes val split is used for golden-vru test (annotations not available for Cityscapes test)
-3. Geographic diversity: USA (BDD), Europe (Cityscapes), South Asia (RSUD), Singapore/Boston (nuImages)
-4. v8.0 adds 45,677 images from nuImages, more than doubling dataset size
+3. Geographic diversity: USA (BDD), Europe (Cityscapes), Singapore/Boston (nuImages)
+4. v9.0 removes RSUD20K data (15,961 images) due to annotation quality concerns
 
 ## Detailed Analysis
 

@@ -1,27 +1,27 @@
 # Golden-VRU Dataset Analysis Report
 
-Generated: 2026-01-28
+Generated: 2026-01-29
 
 ## Executive Summary
 
-The Golden-VRU dataset is a curated multi-source dataset for Vulnerable Road User (VRU) detection, combining images from BDD100K, Cityscapes, RSUD20K, and nuImages. This dataset contains only images with pedestrian and/or cyclist annotations, making it ideal for training object detection models targeting VRUs.
+The Golden-VRU dataset is a curated multi-source dataset for Vulnerable Road User (VRU) detection, combining images from BDD100K, Cityscapes, and nuImages. This dataset contains only images with pedestrian and/or cyclist annotations, making it ideal for training object detection models targeting VRUs.
 
-**v8.0 Update:** Added nuImages VRU data for Singapore and Boston geographic coverage. Small objects (area < 32x32 = 1024 px²) remain filtered out.
+**v9.0 Update:** Removed RSUD20K data due to annotation quality concerns. Small objects (area < 32x32 = 1024 px²) remain filtered out.
 
 ### Dataset Overview
 
 | Split | Images | Annotations | Pedestrians | Cyclists |
 |-------|--------|-------------|-------------|----------|
-| Train | 68,647 | 221,578 | 167,055 (75.4%) | 54,523 (24.6%) |
-| Valid | 8,609 | 28,191 | 21,291 (75.5%) | 6,900 (24.5%) |
-| Test | 8,601 | 28,019 | 21,107 (75.3%) | 6,912 (24.7%) |
-| **Total** | **85,857** | **277,788** | **209,453 (75.4%)** | **68,335 (24.6%)** |
+| Train | 55,878 | 178,492 | 138,806 (77.8%) | 39,686 (22.2%) |
+| Valid | 7,013 | 22,886 | 17,817 (77.9%) | 5,069 (22.1%) |
+| Test | 7,005 | 22,474 | 17,457 (77.7%) | 5,017 (22.3%) |
+| **Total** | **69,896** | **223,852** | **174,080 (77.8%)** | **49,772 (22.2%)** |
 
 **Key Characteristics:**
-- Multi-resolution: 1600x900 (nuImages), 1280x720 (BDD100K), 1920x1080 (RSUD20K), 2048x1024 (Cityscapes)
-- Sources: nuImages (Singapore/Boston), BDD100K (USA), RSUD20K (South Asia), Cityscapes (Europe)
+- Multi-resolution: 1600x900 (nuImages), 1280x720 (BDD100K), 2048x1024 (Cityscapes)
+- Sources: nuImages (Singapore/Boston), BDD100K (USA), Cityscapes (Europe)
 - Average annotations per image: 3.2
-- Balanced class distribution across splits (~75% pedestrian, ~25% cyclist)
+- Balanced class distribution across splits (~78% pedestrian, ~22% cyclist)
 - **No small objects** - only medium (32²-96² px) and large (>96² px) annotations
 - 80/10/10 train/valid/test split
 
@@ -50,8 +50,8 @@ The Golden-VRU dataset is a curated multi-source dataset for Vulnerable Road Use
 
 | ID | Name | Description | Source Mapping |
 |----|------|-------------|----------------|
-| 0 | pedestrian | Walking pedestrians | BDD100K: pedestrian, Cityscapes: person, RSUD20K: Pedestrian, nuImages: human.pedestrian.* |
-| 1 | cyclist | Bicycles, motorcycles, and riders | BDD100K: rider/bike/motor, Cityscapes: rider/bicycle/motorcycle, RSUD20K: Rickshaw/CNG/Bike, nuImages: vehicle.bicycle/motorcycle |
+| 0 | pedestrian | Walking pedestrians | BDD100K: pedestrian, Cityscapes: person, nuImages: human.pedestrian.* |
+| 1 | cyclist | Bicycles, motorcycles, and riders | BDD100K: rider/bike/motor, Cityscapes: rider/bicycle/motorcycle, nuImages: vehicle.bicycle/motorcycle |
 
 ---
 
@@ -59,17 +59,17 @@ The Golden-VRU dataset is a curated multi-source dataset for Vulnerable Road Use
 
 COCO size thresholds: small < 32², medium 32²-96², large > 96²
 
-**v8.0: Small objects removed** - Only medium and large annotations remain.
+**v9.0: Small objects removed** - Only medium and large annotations remain.
 
 | Split | Small (<1024 px²) | Medium (1024-9216 px²) | Large (>9216 px²) |
 |-------|-------------------|------------------------|-------------------|
-| Train | 0 (0%) | 159,764 (72.1%) | 61,814 (27.9%) |
-| Valid | 0 (0%) | 20,541 (72.9%) | 7,650 (27.1%) |
-| Test | 0 (0%) | 19,995 (71.4%) | 8,024 (28.6%) |
+| Train | 0 (0%) | 142,624 (79.9%) | 35,868 (20.1%) |
+| Valid | 0 (0%) | 18,400 (80.4%) | 4,486 (19.6%) |
+| Test | 0 (0%) | 17,900 (79.7%) | 4,574 (20.3%) |
 
 **Observations:**
 1. **No small objects** - All annotations with area < 1024 px² have been removed
-2. **Medium-dominant** - Approximately 72% medium, 28% large
+2. **Medium-dominant** - Approximately 80% medium, 20% large
 3. **Consistent across splits** - Size distribution is consistent across all splits
 
 ---
@@ -93,10 +93,9 @@ COCO size thresholds: small < 32², medium 32²-96², large > 96²
 
 | Source | Resolution | Aspect Ratio | Images | Percentage |
 |--------|------------|--------------|--------|------------|
-| nuImages | 1600 x 900 | 16:9 | 45,677 | 53.2% |
-| BDD100K | 1280 x 720 | 16:9 | 21,326 | 24.8% |
-| RSUD20K | 1920 x 1080 | 16:9 | 15,961 | 18.6% |
-| Cityscapes | 2048 x 1024 | 2:1 | 2,893 | 3.4% |
+| nuImages | 1600 x 900 | 16:9 | 45,677 | 65.3% |
+| BDD100K | 1280 x 720 | 16:9 | 21,326 | 30.5% |
+| Cityscapes | 2048 x 1024 | 2:1 | 2,893 | 4.1% |
 
 **Multi-resolution handling**: Training pipelines should resize/pad images to a consistent size.
 
@@ -108,15 +107,15 @@ COCO size thresholds: small < 32², medium 32²-96², large > 96²
 
 | Split | Pedestrian % | Cyclist % | Ratio |
 |-------|--------------|-----------|-------|
-| Train | 75.4% | 24.6% | 3.1:1 |
-| Valid | 75.5% | 24.5% | 3.1:1 |
-| Test | 75.3% | 24.7% | 3.1:1 |
+| Train | 77.8% | 22.2% | 3.5:1 |
+| Valid | 77.9% | 22.1% | 3.5:1 |
+| Test | 77.7% | 22.3% | 3.5:1 |
 
 **Key Findings:**
-1. **Consistent class balance** - All splits within 0.3% of each other
-2. **Good cyclist representation** - 24.6% cyclists
+1. **Consistent class balance** - All splits within 0.2% of each other
+2. **Good cyclist representation** - 22.2% cyclists
 3. **Training considerations:**
-   - Class-weighted loss functions may still help
+   - Class-weighted loss functions may help
    - Per-class metrics should be reported separately
 
 ---
@@ -138,28 +137,21 @@ COCO size thresholds: small < 32², medium 32²-96², large > 96²
 
 ## 7. Data Sources
 
-### nuImages (53.2% of dataset)
+### nuImages (65.3% of dataset)
 - **Full dataset**: 93,000 annotated images from nuScenes
 - **Golden-VRU subset**: 45,677 images
 - **Resolution**: 1600 x 900
 - **License**: CC BY-NC-SA 4.0
 - **Geographic coverage**: Singapore and Boston
 
-### BDD100K (24.8% of dataset)
+### BDD100K (30.5% of dataset)
 - **Full dataset**: 100,000 diverse driving videos
 - **Golden-VRU subset**: 21,326 images
 - **Resolution**: 1280 x 720
 - **License**: BSD 3-Clause
 - **Geographic coverage**: United States
 
-### RSUD20K (18.6% of dataset)
-- **Full dataset**: 20,000 road scene images
-- **Golden-VRU subset**: 15,961 images
-- **Resolution**: 1920 x 1080
-- **License**: Custom (research use)
-- **Geographic coverage**: Bangladesh (South Asia)
-
-### Cityscapes (3.4% of dataset)
+### Cityscapes (4.1% of dataset)
 - **Full dataset**: 5,000 annotated images
 - **Golden-VRU subset**: 2,893 images
 - **Resolution**: 2048 x 1024
@@ -168,11 +160,11 @@ COCO size thresholds: small < 32², medium 32²-96², large > 96²
 
 ### Source Distribution by Split
 
-| Split | BDD100K | Cityscapes | RSUD20K | nuImages | Total |
-|-------|---------|------------|---------|----------|-------|
-| Train | 17,017 (24.8%) | 2,320 (3.4%) | 12,769 (18.6%) | 36,541 (53.2%) | 68,647 |
-| Valid | 2,156 (25.0%) | 289 (3.4%) | 1,596 (18.5%) | 4,568 (53.1%) | 8,609 |
-| Test | 2,153 (25.0%) | 284 (3.3%) | 1,596 (18.6%) | 4,568 (53.1%) | 8,601 |
+| Split | BDD100K | Cityscapes | nuImages | Total |
+|-------|---------|------------|----------|-------|
+| Train | 17,017 (30.5%) | 2,320 (4.2%) | 36,541 (65.4%) | 55,878 |
+| Valid | 2,156 (30.7%) | 289 (4.1%) | 4,568 (65.1%) | 7,013 |
+| Test | 2,153 (30.7%) | 284 (4.1%) | 4,568 (65.2%) | 7,005 |
 
 ---
 
@@ -181,17 +173,17 @@ COCO size thresholds: small < 32², medium 32²-96², large > 96²
 ```
 golden-vru/
 ├── train/
-│   ├── _annotations.coco.json   (68,647 images, 221,578 annotations)
-│   ├── _annotations.coco.v7.0.json   (backup of v7.0)
-│   └── [68,647 images]
+│   ├── _annotations.coco.json   (55,878 images, 178,492 annotations)
+│   ├── _annotations.coco.v8.0.json   (backup of v8.0)
+│   └── [55,878 images]
 ├── valid/
-│   ├── _annotations.coco.json   (8,609 images, 28,191 annotations)
-│   ├── _annotations.coco.v7.0.json   (backup of v7.0)
-│   └── [8,609 images]
+│   ├── _annotations.coco.json   (7,013 images, 22,886 annotations)
+│   ├── _annotations.coco.v8.0.json   (backup of v8.0)
+│   └── [7,013 images]
 ├── test/
-│   ├── _annotations.coco.json   (8,601 images, 28,019 annotations)
-│   ├── _annotations.coco.v7.0.json   (backup of v7.0)
-│   └── [8,601 images]
+│   ├── _annotations.coco.json   (7,005 images, 22,474 annotations)
+│   ├── _annotations.coco.v8.0.json   (backup of v8.0)
+│   └── [7,005 images]
 ├── analysis/
 │   ├── 1_class_distribution.png
 │   ├── 2_size_distribution.png
@@ -205,6 +197,7 @@ golden-vru/
 ├── DATASET_REPORT.md
 ├── analyze_distributions.py
 ├── filter_small_objects.py
+├── extract_rsud.py
 ├── merge_nuimages.py
 ├── validate_dataset.py
 └── resplit_dataset.py
@@ -213,14 +206,21 @@ golden-vru/
 ### Image Naming Convention
 - **BDD100K**: `{video_id}-{frame_id}.jpg`
 - **Cityscapes**: `cityscapes_{city}_{sequence}_{frame}.png`
-- **RSUD20K**: `rsud_{split}{index}.jpg`
 - **nuImages**: `nuimages_{camera}_{timestamp}.jpg`
 
 ---
 
 ## 9. Version History
 
-### v8.0 - Added nuImages (Current)
+### v9.0 - Removed RSUD20K (Current)
+- Git tag: `v9.0`
+- Removed RSUD20K data due to annotation quality concerns
+- Extracted 15,961 RSUD images to `/mnt/data/rsud-vru/`
+- Images: 69,896 (55,878 / 7,013 / 7,005)
+- Annotations: 223,852 (-19.4% from v8.0)
+- Sources: 3 (BDD100K, Cityscapes, nuImages)
+
+### v8.0 - Added nuImages
 - Git tag: `v8.0`
 - Added nuImages VRU data for Singapore/Boston coverage
 - Images: 85,857 (68,647 / 8,609 / 8,601)
@@ -291,7 +291,7 @@ cd <repo>
 dvc pull
 
 # Verify
-ls golden-vru/train/*.jpg golden-vru/train/*.png | wc -l  # Should be 68,647
+ls golden-vru/train/*.jpg golden-vru/train/*.png | wc -l  # Should be 55,878
 ```
 
 ---
@@ -318,18 +318,18 @@ ls golden-vru/train/*.jpg golden-vru/train/*.png | wc -l  # Should be 68,647
 
 ## 12. Comparison with Individual Sources
 
-| Metric | Golden-VRU v8.0 | nuImages (VRU) | BDD100K (VRU) | RSUD20K (VRU) | Cityscapes (VRU) |
-|--------|-----------------|----------------|---------------|---------------|------------------|
-| Total Images | 85,857 | 45,677 | 21,326 | 15,961 | 2,893 |
-| Total Annotations | 277,788 | 134,576 | ~90,000 | ~50,000 | ~31,000 |
-| Avg Ann/Image | 3.2 | 2.9 | 4.2 | 3.1 | 10.7 |
-| Pedestrian % | 75.4% | 77.6% | 86.1% | 64.2% | 70.9% |
-| Cyclist % | 24.6% | 22.4% | 13.9% | 35.8% | 29.1% |
-| Geographic | Multi-region | Singapore/Boston | USA | South Asia | Europe |
+| Metric | Golden-VRU v9.0 | nuImages (VRU) | BDD100K (VRU) | Cityscapes (VRU) |
+|--------|-----------------|----------------|---------------|------------------|
+| Total Images | 69,896 | 45,677 | 21,326 | 2,893 |
+| Total Annotations | 223,852 | 134,576 | ~90,000 | ~31,000 |
+| Avg Ann/Image | 3.2 | 2.9 | 4.2 | 10.7 |
+| Pedestrian % | 77.8% | 77.6% | 86.1% | 70.9% |
+| Cyclist % | 22.2% | 22.4% | 13.9% | 29.1% |
+| Geographic | Multi-region | Singapore/Boston | USA | Europe |
 
 **Key Differentiators:**
-- Largest combined VRU dataset by image count
-- Geographic diversity (4 regions across 3 continents)
+- Large combined VRU dataset by image count
+- Geographic diversity (3 regions across 3 continents)
 - Consistent class distribution across splits
 - No small objects (medium and large only)
 
@@ -340,7 +340,7 @@ ls golden-vru/train/*.jpg golden-vru/train/*.png | wc -l  # Should be 68,647
 Dataset passes COCO format validation:
 
 ```
-Golden-VRU v8.0: PASSED
+Golden-VRU v9.0: PASSED
   - Keys: ['categories', 'images', 'annotations']
   - Categories: [pedestrian (0), cyclist (1)]
   - Image fields: id, file_name, width, height, source
